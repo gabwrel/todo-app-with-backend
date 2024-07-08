@@ -39,7 +39,7 @@ function Register() {
           <h5 className='text-white text-md my-2 mb-2'>Already have an account? <Link to = "/login" className='hover:underline hover:text-black'>Login</Link></h5>
         </div>
         <Button type="primary" size='large' disabled={!username || !password || !firstName || !lastName} onClick={handleSubmit}>
-          Login
+          Register
         </Button>
       </div>
     </div>
