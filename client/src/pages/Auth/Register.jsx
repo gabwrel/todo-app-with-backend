@@ -18,8 +18,8 @@ function Register() {
 
   return (
     <div className='flex justify-center text-center'>
-      <div className='w-screen sm:w-1/2 bg-slate-400 p-4 h-screen rounded'>
-        <img src={loginIcon} alt="login" />
+      <div className='w-screen sm:w-1/2 bg-slate-400 p-4 h-screen rounded flex flex-col items-center'>
+        <img src={loginIcon} alt="login" className='w-64' />
         <h4 className='text-white text-xl font-bold mt-4'>Register</h4>
         <div className='flex flex-col gap-2 mt-6'>
         <Input placeholder="Username" 
