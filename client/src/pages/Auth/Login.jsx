@@ -23,7 +23,7 @@ function Login() {
       console.log(response.data);
       localStorage.setItem('toDoAppUser', JSON.stringify(response.data));
       message.success("User Logged in Successfully");
-      navigate('/to-do-list');
+      navigate('/to-do-list', {state: JSON.stringify(response.data)});
       setLoading(false);
     } catch (err) {
       console.log(err);
