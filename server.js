@@ -5,12 +5,18 @@ const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 require('dotenv').config();
 
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000', // Replace with your allowed origin
+    methods: 'GET,POST,PUT,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type,Authorization',
+    credentials: true,
+}));
+
 app.use(express.json());
 
-app.use('/api', authRoutes );
+app.use(authRoutes );
 
 mongoose.connect(process.env.DB_URL)
     .then(() => console.log("Successfully Connected to DB!"))
