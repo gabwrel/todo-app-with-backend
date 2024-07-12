@@ -1,8 +1,10 @@
 import React from 'react'
 import loginIcon from '../../assets/login_icon.svg';
-import {Button, Input} from 'antd';
+import {Button, Input, message} from 'antd';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { getErrorMessage } from '../../util/GetError';
+import AuthServices from '../../services/authServices';
 
 
 
@@ -11,9 +13,26 @@ function Register() {
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-
-  const handleSubmit = () => {
-    console.log("Logged In")
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const handleSubmit = async () => {
+    try{
+      const data = {
+        firstName,
+        lastName,
+        username,
+        password
+      }
+      const response = await AuthServices.registerUser(data);
+      console.log(response.data)
+      setLoading(false);
+      message.success("You're registered succesfully");
+      navigate('/login');
+    }catch(err){
+      console.log(err);
+      message.error(getErrorMessage(err))
+      setLoading(false)
+    }
   }
 
   return (
@@ -38,7 +57,7 @@ function Register() {
           </div>
           <h5 className='text-white text-md my-2 mb-2'>Already have an account? <Link to = "/login" className='hover:underline hover:text-black'>Login</Link></h5>
         </div>
-        <Button type="primary" size='large' disabled={!username || !password || !firstName || !lastName} onClick={handleSubmit}>
+        <Button loading={loading} type="primary" size='large' disabled={!username || !password || !firstName || !lastName} onClick={handleSubmit}>
           Register
         </Button>
       </div>
