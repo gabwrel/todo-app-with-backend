@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/Logo.png';
+import { getUserDetails } from '../util/GetUser';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,8 +9,13 @@ function Navbar() {
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
   };
-
+  const [user, setUser] = useState("");
+  useEffect(() => {
+    const userDetails = getUserDetails;
+    setUser(userDetails);
+  },[])
   return (
+
     <header className='fixed w-full top-0 z-50'>
       <nav className="bg-transparent">
         <div className="flex flex-wrap items-center justify-between mx-auto p-4 sm:px-20">
@@ -35,6 +41,7 @@ function Navbar() {
               <li>
                 <Link to="/" className="block py-2 px-3 md:p-0 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent" aria-current="page">Home</Link>
               </li>
+              {user && <li><Link to="/to-do-list" className='block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent' >My Tasks</Link></li>}
               <li>
                 <Link to="/login" className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Login</Link>
               </li>
