@@ -1,5 +1,6 @@
 import React from 'react'
 import { useLocation } from 'react-router'
+import Navbar from '../../Components/Navbar';
 
 function ToDoList() {
   const location = useLocation();
@@ -7,6 +8,7 @@ function ToDoList() {
   const pityniOwie = JSON.parse(state);
   return (
     <>
+    <Navbar active={"myTask"}/>
     <div className='flex justify-center items-center'>
       <div className='md:max-w-5xl w-full h-screen p-4 bg-slate-50'>
         <div className='flex justify-between items-center'>
