@@ -1,19 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/Logo.png';
 import { getUserDetails } from '../util/GetUser';
+import { Dropdown } from 'antd';
 
-function Navbar() {
+
+function Navbar({active}) {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState("");
+  const Navigate = useNavigate();
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
   };
-  const [user, setUser] = useState("");
   useEffect(() => {
     const userDetails = getUserDetails;
     setUser(userDetails);
-  },[])
+  },[]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('toDoAppUser');
+    Navigate('/login');
+  }
+
+  const items = [
+    {
+      key: '1',
+      label: (
+        <span onClick={handleLogout}>Logout</span>
+      )
+    },
+    {
+      key: '2',
+      label: (
+        <span onClick={handleLogout}></span>
+      )
+    },
+  ];
+
   return (
 
     <header className='fixed w-full top-0 z-50'>
@@ -37,17 +61,27 @@ function Navbar() {
               </svg>
           </button>
           <div className={`${isOpen ? 'block' : 'hidden'} w-full md:block md:w-auto`} id="navbar-solid-bg">
-            <ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
+            <ul className="flex flex-col items-center font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
               <li>
                 <Link to="/" className="block py-2 px-3 md:p-0 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent" aria-current="page">Home</Link>
               </li>
               {user && <li><Link to="/to-do-list" className='block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent' >My Tasks</Link></li>}
+              {user ? 
+              <Dropdown menu={{items,}} placement="bottom" arrow>
+                <div className='flex items-center gap-2'>
+                  <img src={logo} alt="logo" className='w-8'/>
+                  <span>Welcome <strong className='uppercase'>{user?.firstName ? `${user?.firstName} ${user?.lastName}` :  user?.username}</strong>!</span>
+                </div> 
+              </Dropdown>
+              
+              : <>
               <li>
                 <Link to="/login" className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Login</Link>
               </li>
               <li>
                 <Link to="/register" className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Register</Link>
               </li>
+              </>}
             </ul>
           </div>
         </div>
